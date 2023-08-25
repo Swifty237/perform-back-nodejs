@@ -23,10 +23,10 @@ db.once('open', () => {
     console.log('Connecté à MongoDB');
 });
 
-apiRouter.route('/perform-mma/classements').
+apiRouter.route('/perform-mma/graphs').
     get((req, res) => {
 
-        res.json({ message: "route classements" });
+        res.json({ message: "route graphe resultats" });
 
     });
 
