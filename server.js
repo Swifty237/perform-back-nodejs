@@ -5,6 +5,7 @@ import rankingsRoutes from './rankings-routes.js';
 import configsRoutes from './configurations-routes.js';
 import pronosRoutes from './pronostics-routes.js';
 import graphsRoutes from './graphs-routes.js';
+import ufcNewsRoutes from './ufc-news-routes.js';
 import dotenv from 'dotenv';
 dotenv.config();
 
@@ -17,6 +18,21 @@ app.use(jsonParser);
 
 app.use(express.static(__dirname));
 
+app.use((req, res, next) => {
+    res.header("Access-Control-Allow-Origin", "http://localhost:4200");
+    res.header("Access-Control-Allow-Methods", "POST, GET, PUT, DELETE, PATCH");
+    res.header(
+        "Access-Control-Allow-Headers",
+        "Origin, X-Requested-With, Content-Type, Accept, Authorization"
+    );
+    if (req.method === "OPTIONS") {
+        res.header("Access-Control-Allow-Methods", "POST, GET, PUT, PATCH, DELETE");
+        //to give access to all the methods provided
+        return res.status(200).json({});
+    }
+    next();
+});
+
 app.get('/', (req, res) => {
 
     res.json({ "message": "hello world" })
@@ -26,7 +42,8 @@ app.use(
     rankingsRoutes.apiRouter,
     configsRoutes.apiRouter,
     pronosRoutes.apiRouter,
-    graphsRoutes.apiRouter
+    graphsRoutes.apiRouter,
+    ufcNewsRoutes.apiRouter
 );
 
 app.listen(process.env.PORT_HOST, () => {
