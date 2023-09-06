@@ -3,7 +3,7 @@ export const compareJsonNumberFights = (a, b) => {
 }
 
 export const compareJsonWins = (a, b) => {
-    return b.WinPercentage - a.WinPercentage;
+    return parseInt(b.WinPercentage) - parseInt(a.WinPercentage);
 }
 
 export const getSeparateKoPercentage = (item) => {
@@ -16,9 +16,29 @@ export const getSeparateKoPercentage = (item) => {
 }
 
 export const compareJsonKoWins = (a, b) => {
-    return b.WinsKoTko - a.WinsKoTko;
+    return parseInt(b.KoTkoPercentage) - parseInt(a.KoTkoPercentage);
 }
 
 export const compareJsonSubWins = (a, b) => {
-    return b.SubWins - a.SubWins;
+    return parseInt(b.SubWinsPercentage) - parseInt(a.SubWinsPercentage);
+}
+
+export const compareJsonStriking = (a, b) => {
+    return parseInt(b.StrikingAcc) - parseInt(a.StrikingAcc);
+}
+
+export const compareJsonStrikingRatio = (a, b) => {
+    return parseInt(b.StrikingRatio) - parseInt(a.StrikingRatio);
+}
+
+export const compareJsonTakedown = (a, b) => {
+    return parseInt(b.TakedownAcc) - parseInt(a.TakedownAcc);
+}
+
+export const compareJsonTakedownDefense = (a, b) => {
+    return parseInt(b.TakedownDef) - parseInt(a.TakedownDef);
+}
+
+export const compareJsonTkdownsRatio = (a, b) => {
+    return parseInt(b.TkdownsRatio) - parseInt(a.TkdownsRatio);
 }

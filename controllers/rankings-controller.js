@@ -1,4 +1,16 @@
-import { compareJsonNumberFights, compareJsonWins, getSeparateKoPercentage, compareJsonKoWins, compareJsonSubWins } from '../utils/functions.js';
+import {
+    compareJsonNumberFights,
+    compareJsonWins,
+    compareJsonKoWins,
+    compareJsonSubWins,
+    compareJsonStriking,
+    compareJsonStrikingRatio,
+    compareJsonTakedown,
+    compareJsonTakedownDefense,
+    compareJsonTkdownsRatio
+} from '../utils/functions.js';
+
+
 import mongoose from 'mongoose';
 import dotenv from 'dotenv';
 
@@ -25,7 +37,7 @@ db.once('open', () => {
 
 export const getRankingsNumberfights = async () => {
 
-    const fightersAndNumberFights = [];
+    const tabJsonToReturn = [];
 
     try {
         const fightersCollection = db.collection("fighters");
@@ -41,10 +53,10 @@ export const getRankingsNumberfights = async () => {
                     + parseInt(fighter["Division Body"][0]["Draws"])
             }
 
-            fightersAndNumberFights.push(newJson);
+            tabJsonToReturn.push(newJson);
         })
 
-        return fightersAndNumberFights.sort(compareJsonNumberFights);
+        return tabJsonToReturn.sort(compareJsonNumberFights);
 
 
     } catch (error) {
@@ -55,7 +67,7 @@ export const getRankingsNumberfights = async () => {
 
 export const getRankingsWins = async () => {
 
-    const fightersAndVictories = [];
+    const tabJsonToReturn = [];
     const tabJson = [];
 
     try {
@@ -81,14 +93,13 @@ export const getRankingsWins = async () => {
             const anotherJson = {
                 Name: item["Name"],
                 Division: item["Division"],
-                NumberFights: item["NumberFights"],
                 WinPercentage: ((parseInt(item["Wins"]) * 100) / parseInt(item["NumberFights"])).toFixed(2)
             }
 
-            fightersAndVictories.push(anotherJson);
+            tabJsonToReturn.push(anotherJson);
         })
 
-        return fightersAndVictories.sort(compareJsonWins);
+        return tabJsonToReturn.sort(compareJsonWins);
 
 
     } catch (error) {
@@ -100,7 +111,7 @@ export const getRankingsWins = async () => {
 // percentage wins by KO
 export const getRankingsKoWins = async () => {
 
-    const fightersAndKoVictories = [];
+    const tabJsonToReturn = [];
     const tabJson = [];
 
     try {
@@ -113,7 +124,7 @@ export const getRankingsKoWins = async () => {
                 Name: fighter["Name"],
                 Division: fighter["Division Title"],
                 Wins: parseInt(fighter["Division Body"][0]["Wins"]),
-                KoTko: parseInt(getSeparateKoPercentage(fighter["Stats"][0]["KOTKO"]))
+                KoTko: parseInt(fighter["Records"][0]["Wins by Knockout"])
             }
 
             tabJson.push(newJson);
@@ -127,10 +138,10 @@ export const getRankingsKoWins = async () => {
                 KoTkoPercentage: ((parseInt(item["KoTko"]) * 100) / item["Wins"]).toFixed(2)
             }
 
-            fightersAndKoVictories.push(anotherJson);
+            tabJsonToReturn.push(anotherJson);
         })
 
-        return fightersAndKoVictories.sort(compareJsonKoWins);
+        return tabJsonToReturn.sort(compareJsonKoWins);
 
 
     } catch (error) {
@@ -142,7 +153,7 @@ export const getRankingsKoWins = async () => {
 // percentage wins by submission
 export const getRankingsSubmissionWins = async () => {
 
-    const fightersAndSubmissionsWins = [];
+    const tabJsonToReturn = [];
     const tabJson = [];
 
     try {
@@ -155,7 +166,7 @@ export const getRankingsSubmissionWins = async () => {
                 Name: fighter["Name"],
                 Division: fighter["Division Title"],
                 Wins: parseInt(fighter["Division Body"][0]["Wins"]),
-                SubWins: parseInt(getSeparateKoPercentage(fighter["Stats"][0]["SUB"]))
+                SubWins: parseInt(fighter["Records"][0]["Wins by Submission"])
             }
 
             tabJson.push(newJson);
@@ -169,10 +180,180 @@ export const getRankingsSubmissionWins = async () => {
                 SubWinsPercentage: ((parseInt(item["SubWins"]) * 100) / item["Wins"]).toFixed(2)
             }
 
-            fightersAndSubmissionsWins.push(anotherJson);
+            tabJsonToReturn.push(anotherJson);
         })
 
-        return fightersAndSubmissionsWins.sort(compareJsonSubWins);
+        return tabJsonToReturn.sort(compareJsonSubWins);
+
+
+    } catch (error) {
+        console.error("Erreur lors de la récupération des données :", error);
+        res.status(500).json({ error: "Erreur serveur" });
+    }
+}
+
+// Striking accuracy
+export const getRankingsStrikingAccuracy = async () => {
+
+    const tabJsonToReturn = [];
+
+    try {
+        const fightersCollection = db.collection("fighters");
+        const fighters = await fightersCollection.find().toArray();
+
+        fighters.forEach(fighter => {
+
+            const newJson = {
+                Name: fighter["Name"],
+                Division: fighter["Division Title"],
+                StrikingAcc: fighter["Striking accuracy"]
+            }
+
+            tabJsonToReturn.push(newJson);
+        })
+
+        return tabJsonToReturn.sort(compareJsonStriking);
+
+
+    } catch (error) {
+        console.error("Erreur lors de la récupération des données :", error);
+        res.status(500).json({ error: "Erreur serveur" });
+    }
+}
+
+
+// Striking landed / Strinking attempted ratio
+export const getRankingsStrikingRatio = async () => {
+
+    const tabJsonToReturn = [];
+    const tabJson = [];
+
+    try {
+        const fightersCollection = db.collection("fighters");
+        const fighters = await fightersCollection.find().toArray();
+
+        fighters.forEach(fighter => {
+
+            const newJson = {
+                Name: fighter["Name"],
+                Division: fighter["Division Title"],
+                StrikesLanded: fighter["Sig"][" Strikes Landed"],
+                StrikesAttempted: fighter["Sig"][" Strikes Attempted"]
+            }
+
+            tabJson.push(newJson);
+        })
+
+        tabJson.forEach(item => {
+            const anotherJson = {
+                Name: item["Name"],
+                Division: item["Division"],
+                StrikingRatio: (parseInt(item["StrikesAttempted"]) / parseInt(item["StrikesLanded"])).toFixed(2)
+            }
+
+            tabJsonToReturn.push(anotherJson);
+        })
+
+        return tabJsonToReturn.sort(compareJsonStrikingRatio);
+
+
+    } catch (error) {
+        console.error("Erreur lors de la récupération des données :", error);
+        res.status(500).json({ error: "Erreur serveur" });
+    }
+}
+
+// Striking accuracy
+export const getRankingsTakedownAccuracy = async () => {
+
+    const tabJsonToReturn = [];
+
+    try {
+        const fightersCollection = db.collection("fighters");
+        const fighters = await fightersCollection.find().toArray();
+
+        fighters.forEach(fighter => {
+
+            const newJson = {
+                Name: fighter["Name"],
+                Division: fighter["Division Title"],
+                TakedownAcc: fighter["Takedown Accuracy"]
+            }
+
+            tabJsonToReturn.push(newJson);
+        })
+
+        return tabJsonToReturn.sort(compareJsonTakedown);
+
+
+    } catch (error) {
+        console.error("Erreur lors de la récupération des données :", error);
+        res.status(500).json({ error: "Erreur serveur" });
+    }
+}
+
+// Takedown defenses
+export const getRankingsTakedownDefense = async () => {
+    const tabJsonToReturn = [];
+
+    try {
+        const fightersCollection = db.collection("fighters");
+        const fighters = await fightersCollection.find().toArray();
+
+        fighters.forEach(fighter => {
+
+            const newJson = {
+                Name: fighter["Name"],
+                Division: fighter["Division Title"],
+                TakedownDef: fighter["Records"][0]["Takedown Defense"]
+            }
+
+            tabJsonToReturn.push(newJson);
+        })
+
+        return tabJsonToReturn.sort(compareJsonTakedownDefense);
+
+
+    } catch (error) {
+        console.error("Erreur lors de la récupération des données :", error);
+        res.status(500).json({ error: "Erreur serveur" });
+    }
+}
+
+
+// Takedowns landed / Takedowns attempted ratio
+export const getRankingsTakedownsRatio = async () => {
+
+    const tabJsonToReturn = [];
+    const tabJson = [];
+
+    try {
+        const fightersCollection = db.collection("fighters");
+        const fighters = await fightersCollection.find().toArray();
+
+        fighters.forEach(fighter => {
+
+            const newJson = {
+                Name: fighter["Name"],
+                Division: fighter["Division Title"],
+                TkdownsLanded: fighter["Takedowns Landed"],
+                TkdownsAttempted: fighter["Takedowns Attempted"]
+            }
+
+            tabJson.push(newJson);
+        })
+
+        tabJson.forEach(item => {
+            const anotherJson = {
+                Name: item["Name"],
+                Division: item["Division"],
+                TkdownsRatio: (parseInt(item["TkdownsAttempted"]) / parseInt(item["TkdownsLanded"])).toFixed(2)
+            }
+
+            tabJsonToReturn.push(anotherJson);
+        })
+
+        return tabJsonToReturn.sort(compareJsonTkdownsRatio);
 
 
     } catch (error) {
