@@ -7,10 +7,12 @@ import pronosRoutes from './pronostics-routes.js';
 import graphsRoutes from './graphs-routes.js';
 import ufcNewsRoutes from './ufc-news-routes.js';
 import dotenv from 'dotenv';
+
 dotenv.config();
 
 const __dirname = dirname(fileURLToPath(import.meta.url));
 const app = express();
+
 
 //support parsing of JSON post data
 const jsonParser = express.json({ extended: true });
