@@ -2,6 +2,6 @@ export const compareJsonNumberFights = (a, b) => {
     return b.NumberFights - a.NumberFights;
 }
 
-// export const compareJsonDateNews = (a, b) => {
-//     return b.publishedAt - a.publishedAt;
-// }
+export const compareJsonVictories = (a, b) => {
+    return b.Wins - a.Wins;
+}

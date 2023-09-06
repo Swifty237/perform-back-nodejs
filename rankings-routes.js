@@ -1,7 +1,7 @@
 import express from 'express';
 import mongoose from 'mongoose';
 import dotenv from 'dotenv';
-import { compareJsonNumberFights } from './utils/functions.js'
+import { compareJsonNumberFights, compareJsonVictories } from './utils/functions.js'
 
 dotenv.config();
 
@@ -25,7 +25,7 @@ db.once('open', () => {
     console.log('Connecté à MongoDB');
 });
 
-const getRankingsOfTheMostfights = async () => {
+const getRankingsNumberfights = async () => {
 
     const fightersAndNumberFights = [];
 
@@ -55,21 +55,50 @@ const getRankingsOfTheMostfights = async () => {
     }
 }
 
-apiRouter.route('/perform-mma/rankings/number-fights').
+const getRankingsVictories = async () => {
+
+    const fightersAndVictories = [];
+
+    try {
+        const fightersCollection = db.collection("fighters");
+        const fighters = await fightersCollection.find().toArray();
+
+        fighters.forEach(fighter => {
+
+            const newJson = {
+                Name: fighter["Name"],
+                Division: fighter["Division Title"],
+                Wins: parseInt(fighter["Division Body"][0]["Wins"]),
+                NumberFights: parseInt(fighter["Division Body"][0]["Wins"])
+                    + parseInt(fighter["Division Body"][0]["Losses"])
+                    + parseInt(fighter["Division Body"][0]["Draws"])
+            }
+
+            fightersAndVictories.push(newJson);
+        })
+
+        return fightersAndVictories.sort(compareJsonVictories);
+
+
+    } catch (error) {
+        console.error("Erreur lors de la récupération des données :", error);
+        res.status(500).json({ error: "Erreur serveur" });
+    }
+}
+
+apiRouter.route('/perform-mma/rankings/numberfights').
     get(async (req, res) => {
 
-        const tabRankingsOfTheMostFights = await getRankingsOfTheMostfights();
-
-        console.log(tabRankingsOfTheMostFights)
-
-        res.json({ message: "route classement nombre de combats" });
+        const tabRankingsNumberFights = await getRankingsNumberfights();
+        res.json(tabRankingsNumberFights);
 
     });
 
 apiRouter.route('/perform-mma/rankings/victories').
-    get((req, res) => {
+    get(async (req, res) => {
 
-        res.json({ message: "route classement nombre de victoires" });
+        const tabRankingsVictories = await getRankingsVictories();
+        res.json(tabRankingsVictories);
     });
 
 export default { apiRouter };

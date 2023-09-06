@@ -38,7 +38,7 @@ const getUfcNews = async () => {
     }
 }
 
-apiRouter.route('/perform-mma/ufc-news').
+apiRouter.route('/perform-mma/ufcnews').
     get(async (req, res) => {
 
         const tabUfcNews = await getUfcNews();
