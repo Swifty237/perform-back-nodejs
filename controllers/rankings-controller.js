@@ -7,7 +7,8 @@ import {
     compareJsonStrikingRatio,
     compareJsonTakedown,
     compareJsonTakedownDefense,
-    compareJsonTkdownsRatio
+    compareJsonTkdownsRatio,
+    getSeparatePercentage
 } from '../utils/functions.js';
 
 
@@ -35,6 +36,8 @@ db.once('open', () => {
     console.log('Connecté à MongoDB');
 });
 
+
+// Rankings by number fights
 export const getRankingsNumberfights = async () => {
 
     const tabJsonToReturn = [];
@@ -46,6 +49,7 @@ export const getRankingsNumberfights = async () => {
         fighters.forEach(fighter => {
 
             const newJson = {
+                Rank: 0,
                 Name: fighter["Name"],
                 Division: fighter["Division Title"],
                 NumberFights: parseInt(fighter["Division Body"][0]["Wins"])
@@ -65,6 +69,8 @@ export const getRankingsNumberfights = async () => {
     }
 }
 
+
+// Rankings by wins
 export const getRankingsWins = async () => {
 
     const tabJsonToReturn = [];
@@ -91,8 +97,10 @@ export const getRankingsWins = async () => {
         tabJson.forEach(item => {
 
             const anotherJson = {
+                Rank: 0,
                 Name: item["Name"],
                 Division: item["Division"],
+                NumberFights: item["NumberFights"],
                 WinPercentage: ((parseInt(item["Wins"]) * 100) / parseInt(item["NumberFights"])).toFixed(2)
             }
 
@@ -123,22 +131,40 @@ export const getRankingsKoWins = async () => {
             const newJson = {
                 Name: fighter["Name"],
                 Division: fighter["Division Title"],
-                Wins: parseInt(fighter["Division Body"][0]["Wins"]),
-                KoTko: parseInt(fighter["Records"][0]["Wins by Knockout"])
+                NumberFights:
+                    parseInt(fighter["Division Body"][0]["Wins"] && fighter["Division Body"][0]["Wins"] != "Null" ? fighter["Division Body"][0]["Wins"] : "0.00")
+                    + parseInt(fighter["Division Body"][0]["Losses"] && fighter["Division Body"][0]["Losses"] != "Null" ? fighter["Division Body"][0]["Losses"] : "0.00")
+                    + parseInt(fighter["Division Body"][0]["Draws"] && fighter["Division Body"][0]["Draws"] != "Null" ? fighter["Division Body"][0]["Draws"] : "0.00"),
+                Wins: parseInt(fighter["Division Body"][0]["Wins"] && fighter["Division Body"][0]["Wins"] != "Null" ? fighter["Division Body"][0]["Wins"] : "0.00"),
+                KoTko: parseInt(fighter["Records"][0]["Wins by Knockout"] ? fighter["Records"][0]["Wins by Knockout"] : "0.00")
             }
 
             tabJson.push(newJson);
+            // console.log("newJson ============================================================================================")
+            // console.log("Name : " + newJson.Name)
+            // console.log("NumberFights : " + newJson.NumberFights)
+            // console.log("Kotko : " + newJson.KoTko)
+            // console.log("")
+
         })
 
         tabJson.forEach(item => {
             const anotherJson = {
+                Rank: 0,
                 Name: item["Name"],
                 Division: item["Division"],
+                NumberFights: item["NumberFights"],
                 WinsKoTko: item["KoTko"],
-                KoTkoPercentage: ((parseInt(item["KoTko"]) * 100) / item["Wins"]).toFixed(2)
+                KoTkoPercentage: item["Wins"] != 0 ? ((parseInt(item["KoTko"]) * 100) / parseInt(item["Wins"])).toFixed(2) : "0.00"
             }
 
             tabJsonToReturn.push(anotherJson);
+            // console.log("anotherJson ============================================================================================")
+            // console.log("Name : " + anotherJson.Name)
+            // console.log("NumberFights : " + anotherJson.NumberFights)
+            // console.log("WinsKotko : " + anotherJson.WinsKoTko)
+            // console.log("KotkoPercentage : " + anotherJson.KoTkoPercentage)
+            // console.log("")
         })
 
         return tabJsonToReturn.sort(compareJsonKoWins);
@@ -165,8 +191,12 @@ export const getRankingsSubmissionWins = async () => {
             const newJson = {
                 Name: fighter["Name"],
                 Division: fighter["Division Title"],
-                Wins: parseInt(fighter["Division Body"][0]["Wins"]),
-                SubWins: parseInt(fighter["Records"][0]["Wins by Submission"])
+                NumberFights:
+                    parseInt(fighter["Division Body"][0]["Wins"] && fighter["Division Body"][0]["Wins"] != "Null" ? fighter["Division Body"][0]["Wins"] : "0.00")
+                    + parseInt(fighter["Division Body"][0]["Losses"] && fighter["Division Body"][0]["Losses"] != "Null" ? fighter["Division Body"][0]["Losses"] : "0.00")
+                    + parseInt(fighter["Division Body"][0]["Draws"] && fighter["Division Body"][0]["Draws"] != "Null" ? fighter["Division Body"][0]["Draws"] : "0.00"),
+                Wins: parseInt(fighter["Division Body"][0]["Wins"] && fighter["Division Body"][0]["Wins"] != "Null" ? fighter["Division Body"][0]["Wins"] : "0.00"),
+                SubWins: parseInt(fighter["Records"][0]["Wins by Submission"] ? fighter["Records"][0]["Wins by Submission"] : "0.00")
             }
 
             tabJson.push(newJson);
@@ -174,10 +204,12 @@ export const getRankingsSubmissionWins = async () => {
 
         tabJson.forEach(item => {
             const anotherJson = {
+                Rank: 0,
                 Name: item["Name"],
                 Division: item["Division"],
+                NumberFights: item["NumberFights"],
                 SubWins: item["SubWins"],
-                SubWinsPercentage: ((parseInt(item["SubWins"]) * 100) / item["Wins"]).toFixed(2)
+                SubWinsPercentage: item["Wins"] != 0 ? ((parseInt(item["SubWins"]) * 100) / item["Wins"]).toFixed(2) : "0.00"
             }
 
             tabJsonToReturn.push(anotherJson);
@@ -204,8 +236,12 @@ export const getRankingsStrikingAccuracy = async () => {
         fighters.forEach(fighter => {
 
             const newJson = {
+                Rank: 0,
                 Name: fighter["Name"],
                 Division: fighter["Division Title"],
+                NumberFights: parseInt(fighter["Division Body"][0]["Wins"] && fighter["Division Body"][0]["Wins"] != "Null" ? fighter["Division Body"][0]["Wins"] : "0.00")
+                    + parseInt(fighter["Division Body"][0]["Losses"] && fighter["Division Body"][0]["Losses"] != "Null" ? fighter["Division Body"][0]["Losses"] : "0.00")
+                    + parseInt(fighter["Division Body"][0]["Draws"] && fighter["Division Body"][0]["Draws"] != "Null" ? fighter["Division Body"][0]["Draws"] : "0.00"),
                 StrikingAcc: fighter["Striking accuracy"]
             }
 
@@ -237,21 +273,30 @@ export const getRankingsStrikingRatio = async () => {
             const newJson = {
                 Name: fighter["Name"],
                 Division: fighter["Division Title"],
-                StrikesLanded: fighter["Sig"][" Strikes Landed"],
-                StrikesAttempted: fighter["Sig"][" Strikes Attempted"]
+                NumberFights:
+                    parseInt(fighter["Division Body"][0]["Wins"] && fighter["Division Body"][0]["Wins"] != "Null" ? fighter["Division Body"][0]["Wins"] : "0.00")
+                    + parseInt(fighter["Division Body"][0]["Losses"] && fighter["Division Body"][0]["Losses"] != "Null" ? fighter["Division Body"][0]["Losses"] : "0.00")
+                    + parseInt(fighter["Division Body"][0]["Draws"] && fighter["Division Body"][0]["Draws"] != "Null" ? fighter["Division Body"][0]["Draws"] : "0.00"),
+                StrikesLanded: fighter["Sig"][" Strikes Landed"] ? parseInt(fighter["Sig"][" Strikes Landed"]) : 0,
+                StrikesAttempted: fighter["Sig"][" Strikes Attempted"] ? parseInt(fighter["Sig"][" Strikes Attempted"]) : 0
             }
 
             tabJson.push(newJson);
         })
 
         tabJson.forEach(item => {
-            const anotherJson = {
-                Name: item["Name"],
-                Division: item["Division"],
-                StrikingRatio: (parseInt(item["StrikesAttempted"]) / parseInt(item["StrikesLanded"])).toFixed(2)
-            }
 
-            tabJsonToReturn.push(anotherJson);
+            if (item["StrikesAttempted"] && item["StrikesLanded"]) {
+                const anotherJson = {
+                    Rank: 0,
+                    Name: item["Name"],
+                    Division: item["Division"],
+                    NumberFights: item["NumberFights"],
+                    StrikingRatio: parseInt(item["StrikesLanded"]) != 0 ? (parseInt(item["StrikesAttempted"]) / parseInt(item["StrikesLanded"])).toFixed(2) : "0.00"
+                }
+
+                tabJsonToReturn.push(anotherJson);
+            }
         })
 
         return tabJsonToReturn.sort(compareJsonStrikingRatio);
@@ -275,9 +320,14 @@ export const getRankingsTakedownAccuracy = async () => {
         fighters.forEach(fighter => {
 
             const newJson = {
+                Rank: 0,
                 Name: fighter["Name"],
                 Division: fighter["Division Title"],
-                TakedownAcc: fighter["Takedown Accuracy"]
+                NumberFights:
+                    parseInt(fighter["Division Body"][0]["Wins"] && fighter["Division Body"][0]["Wins"] != "Null" ? fighter["Division Body"][0]["Wins"] : "0.00")
+                    + parseInt(fighter["Division Body"][0]["Losses"] && fighter["Division Body"][0]["Losses"] != "Null" ? fighter["Division Body"][0]["Losses"] : "0.00")
+                    + parseInt(fighter["Division Body"][0]["Draws"] && fighter["Division Body"][0]["Draws"] != "Null" ? fighter["Division Body"][0]["Draws"] : "0.00"),
+                TakedownAcc: fighter["Takedown Accuracy"] && fighter["Takedown Accuracy"] != "Null" ? fighter["Takedown Accuracy"] : "0%"
             }
 
             tabJsonToReturn.push(newJson);
@@ -303,9 +353,13 @@ export const getRankingsTakedownDefense = async () => {
         fighters.forEach(fighter => {
 
             const newJson = {
+                Rank: 0,
                 Name: fighter["Name"],
                 Division: fighter["Division Title"],
-                TakedownDef: fighter["Records"][0]["Takedown Defense"]
+                NumberFights: parseInt(fighter["Division Body"][0]["Wins"] && fighter["Division Body"][0]["Wins"] != "Null" ? fighter["Division Body"][0]["Wins"] : "0.00")
+                    + parseInt(fighter["Division Body"][0]["Losses"] && fighter["Division Body"][0]["Losses"] != "Null" ? fighter["Division Body"][0]["Losses"] : "0.00")
+                    + parseInt(fighter["Division Body"][0]["Draws"] && fighter["Division Body"][0]["Draws"] != "Null" ? fighter["Division Body"][0]["Draws"] : "0.00"),
+                TakedownDef: fighter["Records"][0]["Takedown Defense"] && fighter["Records"][0]["Takedown Defense"] != "Null" ? fighter["Records"][0]["Takedown Defense"] : "0.00%"
             }
 
             tabJsonToReturn.push(newJson);
@@ -336,21 +390,29 @@ export const getRankingsTakedownsRatio = async () => {
             const newJson = {
                 Name: fighter["Name"],
                 Division: fighter["Division Title"],
-                TkdownsLanded: fighter["Takedowns Landed"],
-                TkdownsAttempted: fighter["Takedowns Attempted"]
+                NumberFights: parseInt(fighter["Division Body"][0]["Wins"] && fighter["Division Body"][0]["Wins"] != "Null" ? fighter["Division Body"][0]["Wins"] : "0.00")
+                    + parseInt(fighter["Division Body"][0]["Losses"] && fighter["Division Body"][0]["Losses"] != "Null" ? fighter["Division Body"][0]["Losses"] : "0.00")
+                    + parseInt(fighter["Division Body"][0]["Draws"] && fighter["Division Body"][0]["Draws"] != "Null" ? fighter["Division Body"][0]["Draws"] : "0.00"),
+                TkdownsLanded: fighter["Takedowns Landed"] && fighter["Takedowns Landed"] != "Null" ? fighter["Takedowns Landed"] : "O.OO",
+                TkdownsAttempted: fighter["Takedowns Attempted"] && fighter["Takedowns Attempted"] != "Null" ? fighter["Takedowns Attempted"] : "0.00"
             }
 
             tabJson.push(newJson);
         })
 
         tabJson.forEach(item => {
-            const anotherJson = {
-                Name: item["Name"],
-                Division: item["Division"],
-                TkdownsRatio: (parseInt(item["TkdownsAttempted"]) / parseInt(item["TkdownsLanded"])).toFixed(2)
-            }
 
-            tabJsonToReturn.push(anotherJson);
+            if (item["TkdownsAttempted"] && item["TkdownsLanded"]) {
+                const anotherJson = {
+                    Rank: 0,
+                    Name: item["Name"],
+                    Division: item["Division"],
+                    NumberFights: item["NumberFights"],
+                    TkdownsRatio: parseInt(item["TkdownsLanded"]) ? (parseInt(item["TkdownsAttempted"]) / parseInt(item["TkdownsLanded"])).toFixed(2) : "0.00"
+                }
+
+                tabJsonToReturn.push(anotherJson);
+            }
         })
 
         return tabJsonToReturn.sort(compareJsonTkdownsRatio);
@@ -360,4 +422,8 @@ export const getRankingsTakedownsRatio = async () => {
         console.error("Erreur lors de la récupération des données :", error);
         res.status(500).json({ error: "Erreur serveur" });
     }
+}
+
+export const getRankingsIpsg = async () => {
+
 }

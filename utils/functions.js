@@ -6,7 +6,7 @@ export const compareJsonWins = (a, b) => {
     return parseInt(b.WinPercentage) - parseInt(a.WinPercentage);
 }
 
-export const getSeparateKoPercentage = (item) => {
+export const getSeparatePercentage = (item) => {
 
     const indexSpace = item.indexOf(" ");
 
@@ -16,7 +16,7 @@ export const getSeparateKoPercentage = (item) => {
 }
 
 export const compareJsonKoWins = (a, b) => {
-    return parseInt(b.KoTkoPercentage) - parseInt(a.KoTkoPercentage);
+    return b.KoTkoPercentage - a.KoTkoPercentage;
 }
 
 export const compareJsonSubWins = (a, b) => {
