@@ -21,7 +21,7 @@ app.use(jsonParser);
 app.use(express.static(__dirname));
 
 app.use((req, res, next) => {
-    res.header("Access-Control-Allow-Origin", "http://localhost:4200");
+    res.header("Access-Control-Allow-Origin", process.env.ALLOWED_ACCESS_URI);
     res.header("Access-Control-Allow-Methods", "POST, GET, PUT, DELETE, PATCH");
     res.header(
         "Access-Control-Allow-Headers",

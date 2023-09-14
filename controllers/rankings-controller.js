@@ -52,9 +52,9 @@ export const getRankingsNumberfights = async () => {
                 Rank: 0,
                 Name: fighter["Name"],
                 Division: fighter["Division Title"],
-                NumberFights: parseInt(fighter["Division Body"][0]["Wins"])
-                    + parseInt(fighter["Division Body"][0]["Losses"])
-                    + parseInt(fighter["Division Body"][0]["Draws"])
+                NumberFights: parseInt(fighter["Division Body"][0]["Wins"] && fighter["Division Body"][0]["Wins"] != "Null" ? fighter["Division Body"][0]["Wins"] : "0.00")
+                    + parseInt(fighter["Division Body"][0]["Losses"] && fighter["Division Body"][0]["Losses"] != "Null" ? fighter["Division Body"][0]["Losses"] : "0.00")
+                    + parseInt(fighter["Division Body"][0]["Draws"] && fighter["Division Body"][0]["Draws"] != "Null" ? fighter["Division Body"][0]["Draws"] : "0.00")
             }
 
             tabJsonToReturn.push(newJson);
@@ -246,7 +246,14 @@ export const getRankingsStrikingAccuracy = async () => {
             }
 
             tabJsonToReturn.push(newJson);
+            // console.log("newJson ============================================================================================")
+            // console.log("Name : " + newJson.Name)
+            // console.log("NumberFights : " + newJson.NumberFights)
+            // console.log("StrikingAcc : " + newJson.StrikingAcc)
+            // console.log("")
         })
+
+        console.log((tabJsonToReturn).sort(compareJsonStriking));
 
         return tabJsonToReturn.sort(compareJsonStriking);
 
@@ -425,5 +432,32 @@ export const getRankingsTakedownsRatio = async () => {
 }
 
 export const getRankingsIpsg = async () => {
+    const tabJsonToReturn = [];
 
+    try {
+        const fightersCollection = db.collection("fighters");
+        const fighters = await fightersCollection.find().toArray();
+
+        fighters.forEach(fighter => {
+
+            const newJson = {
+                Rank: 0,
+                Name: fighter["Name"],
+                Division: fighter["Division Title"],
+                NumberFights: parseInt(fighter["Division Body"][0]["Wins"] && fighter["Division Body"][0]["Wins"] != "Null" ? fighter["Division Body"][0]["Wins"] : "0.00")
+                    + parseInt(fighter["Division Body"][0]["Losses"] && fighter["Division Body"][0]["Losses"] != "Null" ? fighter["Division Body"][0]["Losses"] : "0.00")
+                    + parseInt(fighter["Division Body"][0]["Draws"] && fighter["Division Body"][0]["Draws"] != "Null" ? fighter["Division Body"][0]["Draws"] : "0.00"),
+                Ipsg: 0
+            }
+
+            tabJsonToReturn.push(newJson);
+        })
+
+        return tabJsonToReturn;
+
+
+    } catch (error) {
+        console.error("Erreur lors de la récupération des données :", error);
+        res.status(500).json({ error: "Erreur serveur" });
+    }
 }

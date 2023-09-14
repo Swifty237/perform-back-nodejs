@@ -8,10 +8,16 @@ export const compareJsonWins = (a, b) => {
 
 export const getSeparatePercentage = (item) => {
 
-    const indexSpace = item.indexOf(" ");
+    if (item === null) {
+        return null;
+    }
 
-    if (indexSpace !== -1) {
-        return item.substring(0, indexSpace); // Récupère les caractères avant le premier espace
+    const indexP = item.indexOf("%");
+
+    if (indexP) {
+        return item.substring(0, indexP); // Récupère les caractères avant le premier espace
+    } else {
+        return item;
     }
 }
 
@@ -24,7 +30,7 @@ export const compareJsonSubWins = (a, b) => {
 }
 
 export const compareJsonStriking = (a, b) => {
-    return parseInt(b.StrikingAcc) - parseInt(a.StrikingAcc);
+    return parseInt(getSeparatePercentage(b.StrikingAcc)) - parseInt(getSeparatePercentage(a.StrikingAcc));
 }
 
 export const compareJsonStrikingRatio = (a, b) => {
