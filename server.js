@@ -21,7 +21,7 @@ app.use(jsonParser);
 app.use(express.static(__dirname));
 
 app.use((req, res, next) => {
-    res.header("Access-Control-Allow-Origin", process.env.ALLOWED_ACCESS_URI);
+    res.header("Access-Control-Allow-Origin", process.env.FRONT_ACCESS_URI);
     res.header("Access-Control-Allow-Methods", "POST, GET, PUT, DELETE, PATCH");
     res.header(
         "Access-Control-Allow-Headers",
@@ -48,6 +48,6 @@ app.use(
     ufcNewsRoutes.apiRouter
 );
 
-app.listen(process.env.PORT_HOST, () => {
-    console.log("http://localhost:" + process.env.PORT_HOST);
+app.listen(process.env.BACK_NODE_ACCESS_PORT, () => {
+    console.log(process.env.BACK_NODE_ACCESS_URI);
 });

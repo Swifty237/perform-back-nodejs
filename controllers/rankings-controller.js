@@ -23,10 +23,10 @@ const mongoDbUrl = process.env.MONGODB_URI;
 mongoose.connect(mongoDbUrl, {
     useNewUrlParser: true,
     useUnifiedTopology: true,
-    authSource: process.env.AUTH_SOURCE,
-    user: process.env.DB_USER,
-    pass: process.env.PASS,
-    dbName: process.env.DBNAME
+    authSource: process.env.MONGODB_AUTH_SOURCE,
+    user: process.env.MONGODB_USER,
+    pass: process.env.MONGODB_PASSWORD,
+    dbName: process.env.MONGODB_DBNAME
 });
 
 const db = mongoose.connection;
@@ -253,7 +253,7 @@ export const getRankingsStrikingAccuracy = async () => {
             // console.log("")
         })
 
-        console.log((tabJsonToReturn).sort(compareJsonStriking));
+        // console.log((tabJsonToReturn).sort(compareJsonStriking));
 
         return tabJsonToReturn.sort(compareJsonStriking);
 
