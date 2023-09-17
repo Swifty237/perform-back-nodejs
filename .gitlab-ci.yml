@@ -1,0 +1,13 @@
+stages:
+  - local_build
+
+local:
+  stage: local_build
+  image: docker:latest
+  services:
+    - docker:dind
+  script:
+    - docker login -u $CI_REGISTRY_USER -p $PERS_ACCESS_TOKEN $CI_REGISTRY
+    - docker build -t $CI_REGISTRY_IMAGE .
+    - docker push $CI_REGISTRY_IMAGE
+    - docker logout
