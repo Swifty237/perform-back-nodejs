@@ -2,7 +2,7 @@ stages:
   - start_mongodb
   - local_build
 
-start_mongodb:
+mongodb:
   stage: start_mongodb
   image: mongo:latest
   script:
@@ -16,6 +16,8 @@ local:
   image: docker:latest
   services:
     - docker:dind
+  dependencies:
+    - mongodb 
   script:
     - export FRONT_ACCESS_URI=$FRONT_ACCESS_URI
     - export BACK_NODE_ACCESS_PORT=$BACK_NODE_ACCESS_PORT
