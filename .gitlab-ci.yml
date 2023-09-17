@@ -10,7 +10,7 @@ mongodb:
     - export MONGO_INITDB_ROOT_USERNAME=$MONGODB_USER
     - export MONGO_INITDB_ROOT_PASSWORD=$MONGODB_PASSWORD
     - export MONGO_INITDB_DATABASE=$MONGODB_DBNAME
-
+    
 local:
   stage: local_build
   image: docker:latest
