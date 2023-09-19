@@ -13,15 +13,15 @@ dotenv.config();
 const __dirname = dirname(fileURLToPath(import.meta.url));
 const app = express();
 
-
 //support parsing of JSON post data
 const jsonParser = express.json({ extended: true });
+
 app.use(jsonParser);
 
 app.use(express.static(__dirname));
 
 app.use((req, res, next) => {
-    res.header("Access-Control-Allow-Origin", process.env.FRONT_ACCESS_URI);
+    res.header("Access-Control-Allow-Origin", process.env.LOCAL_FRONT_ACCESS_URI);
     res.header("Access-Control-Allow-Methods", "POST, GET, PUT, DELETE, PATCH");
     res.header(
         "Access-Control-Allow-Headers",
@@ -48,6 +48,6 @@ app.use(
     ufcNewsRoutes.apiRouter
 );
 
-app.listen(process.env.BACK_NODE_ACCESS_PORT, () => {
-    console.log(process.env.BACK_NODE_ACCESS_URI);
+app.listen(process.env.LOCAL_BACK_NODE_ACCESS_PORT, () => {
+    console.log(process.env.LOCAL_BACK_NODE_ACCESS_URI);
 });

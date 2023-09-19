@@ -10,33 +10,33 @@ import {
     compareJsonTkdownsRatio,
     getSeparatePercentage
 } from '../utils/functions.js';
-
-
-import mongoose from 'mongoose';
+import getMongoConnection from '../utils/database.js';
+// import mongoose from 'mongoose';
 import dotenv from 'dotenv';
 
 dotenv.config();
+const db = getMongoConnection();
 
-const mongoDbUrl = process.env.MONGODB_URI;
+// const mongoDbUrl = process.env.MONGODB_URI;
 
-// mongoose.connect(mongoDbUrl);
+// // mongoose.connect(mongoDbUrl);
 
-// Connexion à la base de données MongoDB
-mongoose.connect(mongoDbUrl, {
-    useNewUrlParser: true,
-    useUnifiedTopology: true,
-    authSource: process.env.MONGODB_AUTH_SOURCE ? process.env.MONGODB_AUTH_SOURCE : "",
-    user: process.env.MONGODB_USER ? process.env.MONGODB_USER : "",
-    pass: process.env.MONGODB_PASSWORD ? process.env.MONGODB_PASSWORD : "",
-    dbName: process.env.MONGODB_DBNAME ? process.env.MONGODB_DBNAME : ""
-});
+// // Connexion à la base de données MongoDB
+// mongoose.connect(mongoDbUrl, {
+//     useNewUrlParser: true,
+//     useUnifiedTopology: true,
+//     authSource: process.env.MONGODB_AUTH_SOURCE ? process.env.MONGODB_AUTH_SOURCE : "",
+//     user: process.env.MONGODB_USER ? process.env.MONGODB_USER : "",
+//     pass: process.env.MONGODB_PASSWORD ? process.env.MONGODB_PASSWORD : "",
+//     dbName: process.env.MONGODB_DBNAME ? process.env.MONGODB_DBNAME : ""
+// });
 
-const db = mongoose.connection;
+// const db = mongoose.connection;
 
-db.on('error', console.error.bind(console, 'Erreur de connexion à MongoDB :'));
-db.once('open', () => {
-    console.log('Connecté à MongoDB');
-});
+// db.on('error', console.error.bind(console, 'Erreur de connexion à MongoDB :'));
+// db.once('open', () => {
+//     console.log('Connecté à MongoDB');
+// });
 
 
 // Rankings by number fights
