@@ -4,13 +4,13 @@ import getMongoConnection from './utils/database.js';
 import dotenv from 'dotenv';
 
 dotenv.config();
+const db = getMongoConnection();
 
 const apiRouter = express.Router();
 
 const getUfcNews = async () => {
 
     const arrayNews = []
-    const db = getMongoConnection();
 
     try {
         const ufcNewsCollection = db.collection("ufcnews");
@@ -20,6 +20,8 @@ const getUfcNews = async () => {
         console.error("Erreur lors de la récupération des données :", error);
         res.status(500).json({ error: "Erreur serveur" });
     }
+
+    db.close();
 }
 
 apiRouter.route('/performmma/ufcnews').
