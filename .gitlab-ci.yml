@@ -1,8 +1,31 @@
 stages:
-  - local_build
-    
-local:
-  stage: local_build
+  - build
+  - deploy
+  - dregistry
+
+node:
+  stage: build
+  image: node:alpine
+  before_script:
+    - npm install
+  script:
+    - node server.js
+
+vercel:
+  stage: deploy
+  image: drkms/vercel:1.0
+  script:
+    variables:
+      VERCEL_PROJECT_ID: $VERCEL_PROJECT_ID
+      VERCEL_ORG_ID: $VERCEL_ORG_ID
+    script: 
+        - vercel --yes --token=$VERCEL_ACCESS_TOKEN
+
+  rules:
+    - when: manual
+
+dregistry:
+  stage: dregistry
   image: docker:latest
   services:
     - docker:dind
