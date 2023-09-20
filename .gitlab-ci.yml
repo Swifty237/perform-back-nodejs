@@ -14,14 +14,11 @@ node:
 vercel:
   stage: deploy
   image: drkms/vercel:1.0
-  script:
-    - export VERCEL_PROJECT_ID=$VERCEL_PROJECT_ID
-    - export VERCEL_ORG_ID=$VERCEL_ORG_ID
-    variables:
-      VERCEL_PROJECT_ID: $VERCEL_PROJECT_ID
-      VERCEL_ORG_ID: $VERCEL_ORG_ID
-    script: 
-        - vercel --yes --token=$VERCEL_ACCESS_TOKEN
+  variables:
+    VERCEL_PROJECT_ID: $VERCEL_PROJECT_ID
+    VERCEL_ORG_ID: $VERCEL_ORG_ID
+  script: 
+    - vercel --yes --token=$VERCEL_ACCESS_TOKEN
 
   rules:
     - when: manual
