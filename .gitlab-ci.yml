@@ -6,10 +6,8 @@ stages:
 node:
   stage: build
   image: node:alpine
-  before_script:
-    - npm install
   script:
-    - node server.js
+    - npm install
 
 vercel:
   stage: deploy
