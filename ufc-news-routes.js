@@ -10,18 +10,16 @@ const apiRouter = express.Router();
 
 const getUfcNews = async () => {
 
-    const arrayNews = []
-
     try {
         const ufcNewsCollection = db.collection("ufcnews");
-        return await ufcNewsCollection.find().toArray();
+        const arrayNews = await ufcNewsCollection.find().toArray();
+        return arrayNews;
 
     } catch (error) {
         console.error("Erreur lors de la récupération des données :", error);
         res.status(500).json({ error: "Erreur serveur" });
     }
 
-    db.close();
 }
 
 apiRouter.route('/performmma/ufcnews').
