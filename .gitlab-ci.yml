@@ -16,7 +16,7 @@ vercel:
     VERCEL_PROJECT_ID: $VERCEL_PROJECT_ID
     VERCEL_ORG_ID: $VERCEL_ORG_ID
   script: 
-    - vercel --yes --token=$VERCEL_ACCESS_TOKEN
+    - vercel --prod --yes --token=$VERCEL_ACCESS_TOKEN
 
   rules:
     - when: manual
