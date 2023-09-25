@@ -1,6 +1,6 @@
 import mongoose from 'mongoose';
 
-const getMongoConnection = () => {
+const getMongooseConnection = () => {
 
     if (process.env.LOCAL_MONGODB_USER && process.env.LOCAL_MONGODB_URI && process.env.LOCAL_MONGODB_PASSWORD) {
 
@@ -48,4 +48,4 @@ const getMongoConnection = () => {
     }
 }
 
-export default getMongoConnection;
+export default getMongooseConnection;
