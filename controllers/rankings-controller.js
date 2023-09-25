@@ -8,13 +8,14 @@ import {
     compareJsonTakedown,
     compareJsonTakedownDefense,
     compareJsonTkdownsRatio,
-    getSeparatePercentage
 } from '../utils/functions.js';
-import getMongoConnection from '../utils/database.js';
+import getMongooseConnection from '../utils/database.js';
+import fighterSchema from '../models/fighter-model.js'
 import dotenv from 'dotenv';
 
 dotenv.config();
-const db = getMongoConnection();
+getMongooseConnection();
+const fighters = await fighterSchema.find();
 
 // Rankings by number fights
 export const getRankingsNumberfights = async () => {
@@ -22,8 +23,7 @@ export const getRankingsNumberfights = async () => {
     const tabJsonToReturn = [];
 
     try {
-        const fightersCollection = db.collection("fighters");
-        const fighters = await fightersCollection.find().toArray();
+        // const fightersCollection = db.collection("fighters");
 
         fighters.forEach(fighter => {
 
@@ -56,8 +56,8 @@ export const getRankingsWins = async () => {
     const tabJson = [];
 
     try {
-        const fightersCollection = db.collection("fighters");
-        const fighters = await fightersCollection.find().toArray();
+        // const fightersCollection = db.collection("fighters");
+        // const fighters = await fighterSchema.find();
 
         fighters.forEach(fighter => {
 
@@ -102,8 +102,8 @@ export const getRankingsKoWins = async () => {
     const tabJson = [];
 
     try {
-        const fightersCollection = db.collection("fighters");
-        const fighters = await fightersCollection.find().toArray();
+        // const fightersCollection = db.collection("fighters");
+        // const fighters = await fighterSchema.find();
 
         fighters.forEach(fighter => {
 
@@ -162,8 +162,8 @@ export const getRankingsSubmissionWins = async () => {
     const tabJson = [];
 
     try {
-        const fightersCollection = db.collection("fighters");
-        const fighters = await fightersCollection.find().toArray();
+        // const fightersCollection = db.collection("fighters");
+        // const fighters = await fightersCollection.find().toArray();
 
         fighters.forEach(fighter => {
 
@@ -209,8 +209,8 @@ export const getRankingsStrikingAccuracy = async () => {
     const tabJsonToReturn = [];
 
     try {
-        const fightersCollection = db.collection("fighters");
-        const fighters = await fightersCollection.find().toArray();
+        // const fightersCollection = db.collection("fighters");
+        // const fighters = await fightersCollection.find().toArray();
 
         fighters.forEach(fighter => {
 
@@ -253,8 +253,8 @@ export const getRankingsStrikingRatio = async () => {
     const tabJson = [];
 
     try {
-        const fightersCollection = db.collection("fighters");
-        const fighters = await fightersCollection.find().toArray();
+        // const fightersCollection = db.collection("fighters");
+        // const fighters = await fightersCollection.find().toArray();
 
         fighters.forEach(fighter => {
 
@@ -302,8 +302,8 @@ export const getRankingsTakedownAccuracy = async () => {
     const tabJsonToReturn = [];
 
     try {
-        const fightersCollection = db.collection("fighters");
-        const fighters = await fightersCollection.find().toArray();
+        // const fightersCollection = db.collection("fighters");
+        // const fighters = await fightersCollection.find().toArray();
 
         fighters.forEach(fighter => {
 
@@ -335,8 +335,8 @@ export const getRankingsTakedownDefense = async () => {
     const tabJsonToReturn = [];
 
     try {
-        const fightersCollection = db.collection("fighters");
-        const fighters = await fightersCollection.find().toArray();
+        // const fightersCollection = db.collection("fighters");
+        // const fighters = await fightersCollection.find().toArray();
 
         fighters.forEach(fighter => {
 
@@ -370,8 +370,8 @@ export const getRankingsTakedownsRatio = async () => {
     const tabJson = [];
 
     try {
-        const fightersCollection = db.collection("fighters");
-        const fighters = await fightersCollection.find().toArray();
+        // const fightersCollection = db.collection("fighters");
+        // const fighters = await fightersCollection.find().toArray();
 
         fighters.forEach(fighter => {
 
@@ -416,8 +416,8 @@ export const getRankingsIpsg = async () => {
     const tabJsonToReturn = [];
 
     try {
-        const fightersCollection = db.collection("fighters");
-        const fighters = await fightersCollection.find().toArray();
+        // const fightersCollection = db.collection("fighters");
+        // const fighters = await fightersCollection.find().toArray();
 
         fighters.forEach(fighter => {
 
