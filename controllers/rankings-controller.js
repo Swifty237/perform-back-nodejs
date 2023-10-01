@@ -18,7 +18,7 @@ getMongooseConnection();
 const fighters = await fighterSchema.find();
 
 // Rankings by number fights
-export const getRankingsNumberfights = async () => {
+export const getRankingsNumberFights = async () => {
 
     const tabJsonToReturn = [];
 
@@ -64,10 +64,10 @@ export const getRankingsWins = async () => {
             const newJson = {
                 Name: fighter["Name"],
                 Division: fighter["Division Title"],
-                Wins: parseInt(fighter["Division Body"][0]["Wins"]),
-                NumberFights: parseInt(fighter["Division Body"][0]["Wins"])
-                    + parseInt(fighter["Division Body"][0]["Losses"])
-                    + parseInt(fighter["Division Body"][0]["Draws"])
+                Wins: parseInt(fighter["Division Body"][0]["Wins"] && fighter["Division Body"][0]["Wins"] != "Null" ? fighter["Division Body"][0]["Wins"] : "0.00"),
+                NumberFights: parseInt(fighter["Division Body"][0]["Wins"] && fighter["Division Body"][0]["Wins"] != "Null" ? fighter["Division Body"][0]["Wins"] : "0.00")
+                    + parseInt(fighter["Division Body"][0]["Losses"] && fighter["Division Body"][0]["Losses"] != "Null" ? fighter["Division Body"][0]["Losses"] : "0.00")
+                    + parseInt(fighter["Division Body"][0]["Draws"] && fighter["Division Body"][0]["Draws"] != "Null" ? fighter["Division Body"][0]["Draws"] : "0.00")
             }
 
             tabJson.push(newJson);
@@ -80,7 +80,7 @@ export const getRankingsWins = async () => {
                 Name: item["Name"],
                 Division: item["Division"],
                 NumberFights: item["NumberFights"],
-                WinPercentage: ((parseInt(item["Wins"]) * 100) / parseInt(item["NumberFights"])).toFixed(2)
+                WinPercentage: item["Wins"] != 0 && item["NumberFights"] != 0 ? ((parseInt(item["Wins"]) * 100) / parseInt(item["NumberFights"])).toFixed(2) : "0.00"
             }
 
             tabJsonToReturn.push(anotherJson);

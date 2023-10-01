@@ -1,6 +1,6 @@
 import express from 'express';
 import {
-    getRankingsNumberfights,
+    getRankingsNumberFights,
     getRankingsWins,
     getRankingsKoWins,
     getRankingsSubmissionWins,
@@ -18,7 +18,7 @@ const apiRouter = express.Router();
 apiRouter.route('/performmma/rankings/numberfights').
     get(async (req, res) => {
 
-        const tabRankingsNumberFights = await getRankingsNumberfights();
+        const tabRankingsNumberFights = await getRankingsNumberFights();
         res.json(tabRankingsNumberFights);
 
     });
