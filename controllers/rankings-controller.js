@@ -29,6 +29,7 @@ export const getRankingsNumberFights = async () => {
 
             const newJson = {
                 Rank: 0,
+                FigtherId: fighter["FigtherId"],
                 Name: fighter["Name"],
                 Division: fighter["Division Title"],
                 NumberFights: parseInt(fighter["Division Body"][0]["Wins"] && fighter["Division Body"][0]["Wins"] != "Null" ? fighter["Division Body"][0]["Wins"] : "0.00")
@@ -62,6 +63,7 @@ export const getRankingsWins = async () => {
         fighters.forEach(fighter => {
 
             const newJson = {
+                FigtherId: fighter["FigtherId"],
                 Name: fighter["Name"],
                 Division: fighter["Division Title"],
                 Wins: parseInt(fighter["Division Body"][0]["Wins"] && fighter["Division Body"][0]["Wins"] != "Null" ? fighter["Division Body"][0]["Wins"] : "0.00"),
@@ -77,6 +79,7 @@ export const getRankingsWins = async () => {
 
             const anotherJson = {
                 Rank: 0,
+                FigtherId: item["FigtherId"],
                 Name: item["Name"],
                 Division: item["Division"],
                 NumberFights: item["NumberFights"],
@@ -108,6 +111,7 @@ export const getRankingsKoWins = async () => {
         fighters.forEach(fighter => {
 
             const newJson = {
+                FigtherId: fighter["FigtherId"],
                 Name: fighter["Name"],
                 Division: fighter["Division Title"],
                 NumberFights:
@@ -130,6 +134,7 @@ export const getRankingsKoWins = async () => {
         tabJson.forEach(item => {
             const anotherJson = {
                 Rank: 0,
+                FigtherId: item["FigtherId"],
                 Name: item["Name"],
                 Division: item["Division"],
                 NumberFights: item["NumberFights"],
@@ -169,6 +174,7 @@ export const getRankingsSubmissionWins = async () => {
 
             const newJson = {
                 Name: fighter["Name"],
+                FigtherId: fighter["FigtherId"],
                 Division: fighter["Division Title"],
                 NumberFights:
                     parseInt(fighter["Division Body"][0]["Wins"] && fighter["Division Body"][0]["Wins"] != "Null" ? fighter["Division Body"][0]["Wins"] : "0.00")
@@ -184,6 +190,7 @@ export const getRankingsSubmissionWins = async () => {
         tabJson.forEach(item => {
             const anotherJson = {
                 Rank: 0,
+                FigtherId: item["FigtherId"],
                 Name: item["Name"],
                 Division: item["Division"],
                 NumberFights: item["NumberFights"],
@@ -216,6 +223,7 @@ export const getRankingsStrikingAccuracy = async () => {
 
             const newJson = {
                 Rank: 0,
+                FigtherId: fighter["FigtherId"],
                 Name: fighter["Name"],
                 Division: fighter["Division Title"],
                 NumberFights: parseInt(fighter["Division Body"][0]["Wins"] && fighter["Division Body"][0]["Wins"] != "Null" ? fighter["Division Body"][0]["Wins"] : "0.00")
@@ -260,6 +268,7 @@ export const getRankingsStrikingRatio = async () => {
 
             const newJson = {
                 Name: fighter["Name"],
+                FigtherId: fighter["FigtherId"],
                 Division: fighter["Division Title"],
                 NumberFights:
                     parseInt(fighter["Division Body"][0]["Wins"] && fighter["Division Body"][0]["Wins"] != "Null" ? fighter["Division Body"][0]["Wins"] : "0.00")
@@ -277,6 +286,7 @@ export const getRankingsStrikingRatio = async () => {
             if (item["StrikesAttempted"] && item["StrikesLanded"]) {
                 const anotherJson = {
                     Rank: 0,
+                    FigtherId: item["FigtherId"],
                     Name: item["Name"],
                     Division: item["Division"],
                     NumberFights: item["NumberFights"],
@@ -309,6 +319,7 @@ export const getRankingsTakedownAccuracy = async () => {
 
             const newJson = {
                 Rank: 0,
+                FigtherId: fighter["FigtherId"],
                 Name: fighter["Name"],
                 Division: fighter["Division Title"],
                 NumberFights:
@@ -342,6 +353,7 @@ export const getRankingsTakedownDefense = async () => {
 
             const newJson = {
                 Rank: 0,
+                FigtherId: fighter["FigtherId"],
                 Name: fighter["Name"],
                 Division: fighter["Division Title"],
                 NumberFights: parseInt(fighter["Division Body"][0]["Wins"] && fighter["Division Body"][0]["Wins"] != "Null" ? fighter["Division Body"][0]["Wins"] : "0.00")
@@ -376,6 +388,7 @@ export const getRankingsTakedownsRatio = async () => {
         fighters.forEach(fighter => {
 
             const newJson = {
+                FigtherId: fighter["FigtherId"],
                 Name: fighter["Name"],
                 Division: fighter["Division Title"],
                 NumberFights: parseInt(fighter["Division Body"][0]["Wins"] && fighter["Division Body"][0]["Wins"] != "Null" ? fighter["Division Body"][0]["Wins"] : "0.00")
@@ -393,6 +406,7 @@ export const getRankingsTakedownsRatio = async () => {
             if (item["TkdownsAttempted"] && item["TkdownsLanded"]) {
                 const anotherJson = {
                     Rank: 0,
+                    FigtherId: item["FigtherId"],
                     Name: item["Name"],
                     Division: item["Division"],
                     NumberFights: item["NumberFights"],
@@ -423,6 +437,7 @@ export const getRankingsIpsg = async () => {
 
             const newJson = {
                 Rank: 0,
+                FigtherId: fighter["FigtherId"],
                 Name: fighter["Name"],
                 Division: fighter["Division Title"],
                 NumberFights: parseInt(fighter["Division Body"][0]["Wins"] && fighter["Division Body"][0]["Wins"] != "Null" ? fighter["Division Body"][0]["Wins"] : "0.00")
