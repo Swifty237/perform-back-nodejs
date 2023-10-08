@@ -15,6 +15,7 @@ vercel:
   variables:
     VERCEL_PROJECT_ID: $VERCEL_PROJECT_ID
     VERCEL_ORG_ID: $VERCEL_ORG_ID
+    FRONT_URI: $FRONT_URI
   script: 
     - vercel --prod --yes --token=$VERCEL_ACCESS_TOKEN
 
