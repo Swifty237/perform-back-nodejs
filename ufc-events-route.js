@@ -1,18 +1,18 @@
 import express from 'express';
 import getMongooseConnection from './utils/database.js';
-import ufcNewsDataSchema from './models/ufc-news-model.js'
+import UfcEventsDataSchema from './models/ufc-events-model.js';
 import dotenv from 'dotenv';
 
 dotenv.config();
-getMongooseConnection();
+const db = getMongooseConnection();
 
 const apiRouter = express.Router();
 
-const getUfcNews = async () => {
+const getUfcEvents = async () => {
 
     try {
-        const arrayNews = await ufcNewsDataSchema.find();
-        return arrayNews;
+        const arrayEvents = await UfcEventsDataSchema.find();
+        return arrayEvents;
 
     } catch (error) {
         console.error("Erreur lors de la récupération des données :", error);
@@ -20,11 +20,11 @@ const getUfcNews = async () => {
     }
 }
 
-apiRouter.route('/performmma/ufcnews').
+apiRouter.route('/performmma/ufcevents').
     get(async (req, res) => {
 
-        const tabUfcNews = await getUfcNews();
-        res.json(tabUfcNews);
+        const tabUfcEvents = await getUfcEvents();
+        res.json(tabUfcEvents);
     });
 
 export default { apiRouter };

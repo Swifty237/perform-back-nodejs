@@ -4,8 +4,8 @@ import { fileURLToPath } from 'url';
 import rankingsRoutes from './rankings-routes.js';
 import configsRoutes from './configurations-routes.js';
 import pronosRoutes from './pronostics-routes.js';
-import graphsRoutes from './graphs-routes.js';
-import ufcNewsRoutes from './ufc-news-routes.js';
+import ufcNewsRoute from './ufc-news-route.js';
+import ufcEventsRoute from './ufc-events-route.js';
 import dotenv from 'dotenv';
 
 dotenv.config();
@@ -43,8 +43,8 @@ app.use(
     rankingsRoutes.apiRouter,
     configsRoutes.apiRouter,
     pronosRoutes.apiRouter,
-    graphsRoutes.apiRouter,
-    ufcNewsRoutes.apiRouter
+    ufcNewsRoute.apiRouter,
+    ufcEventsRoute.apiRouter
 );
 
 app.listen(process.env.LOCAL_BACK_NODE_ACCESS_PORT, () => {
