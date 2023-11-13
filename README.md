@@ -35,7 +35,7 @@ Set the following environment variables to allow connection to the database and 
 
 * LOCAL_BACK_NODE_ACCESS_URI => your node backend URI 
 * LOCAL_BACK_NODE_ACCESS_PORT => your node back port
-* LOCAL_MONGODB_URI => your mongodb URI
+* LOCAL_MONGODB_URI => your database URI
 * LOCAL_MONGODB_USER => your database username
 * LOCAL_MONGODB_PASSWORD => your database password
 * LOCAL_MONGODB_DBNAME => database name
