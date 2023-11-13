@@ -33,15 +33,15 @@ Clone the project and open it with your favorite text editor, I used eclipse.
 
 Set the following environment variables to allow connection to the database and grant CORS permissions to your front interface : 
 
-LOCAL_BACK_NODE_ACCESS_URI => your node backend URI 
-LOCAL_BACK_NODE_ACCESS_PORT => your node back port
-LOCAL_MONGODB_URI => your mongodb URI
-LOCAL_MONGODB_USER => your database username
-LOCAL_MONGODB_PASSWORD => your database password
-LOCAL_MONGODB_DBNAME => database name
+* LOCAL_BACK_NODE_ACCESS_URI => your node backend URI 
+* LOCAL_BACK_NODE_ACCESS_PORT => your node back port
+* LOCAL_MONGODB_URI => your mongodb URI
+* LOCAL_MONGODB_USER => your database username
+* LOCAL_MONGODB_PASSWORD => your database password
+* LOCAL_MONGODB_DBNAME => database name
 
-MONGODB_AUTH_SOURCE => admin
-FRONT_URI => your frontend URI
+* MONGODB_AUTH_SOURCE => admin
+* FRONT_URI => your frontend URI
 
 Run the following commands : 
 
