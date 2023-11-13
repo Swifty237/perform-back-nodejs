@@ -4,7 +4,7 @@ perform-back-nodejs
 
 # Description
 
-PreformBackSpring is a REST API which was designed with node js to be part of a set of separate bricks and micro services which communicate with each other as needed. This set of bricks and micro services are a part of the architecture of an application named perform MMA, it manages queries to Perform MMA mongodb database. This database contains a whole set of data used in the construction of the different pages of my web application.
+Preform-back-node is a REST API which was designed with node js to be part of a set of separate bricks and micro services which communicate with each other as needed. This set of bricks and micro services are a part of the architecture of an application named perform MMA, it manages queries to Perform MMA mongodb database. This database contains a whole set of data used in the construction of the different pages of my web application.
 
 Click on the following link for more details on Perform MMA web application =>
 <a href="https://docs.google.com/presentation/d/e/2PACX-1vSzRUSTdUaM2xpnRheKOzhWK3UeApCFwF-Qn_Nl0KEetrUcBNHhpZ1nt6GdtnWPDutZzQquVGiIEMkr/pub?start=false&loop=false&delayms=3000">Perform MMA presentation</a> <br>
