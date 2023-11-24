@@ -8,6 +8,7 @@ import {
     compareJsonTakedown,
     compareJsonTakedownDefense,
     compareJsonTkdownsRatio,
+    duplicateFilter
 } from '../utils/functions.js';
 import getMongooseConnection from '../utils/database.js';
 import fighterSchema from '../models/fighter-model.js'
@@ -29,7 +30,7 @@ export const getRankingsNumberFights = async () => {
 
             const newJson = {
                 Rank: 0,
-                FigtherId: fighter["FigtherId"],
+                FighterId: fighter["FighterId"],
                 Name: fighter["Name"],
                 Division: fighter["Division Title"],
                 NumberFights: parseInt(fighter["Division Body"][0]["Wins"] && fighter["Division Body"][0]["Wins"] != "Null" ? fighter["Division Body"][0]["Wins"] : "0.00")
@@ -40,7 +41,9 @@ export const getRankingsNumberFights = async () => {
             tabJsonToReturn.push(newJson);
         })
 
-        return tabJsonToReturn.sort(compareJsonNumberFights);
+        const filteredTabJsonToReturn = duplicateFilter(tabJsonToReturn, "FighterId");
+
+        return filteredTabJsonToReturn.sort(compareJsonNumberFights);
 
 
     } catch (error) {
@@ -57,13 +60,11 @@ export const getRankingsWins = async () => {
     const tabJson = [];
 
     try {
-        // const fightersCollection = db.collection("fighters");
-        // const fighters = await fighterSchema.find();
 
         fighters.forEach(fighter => {
 
             const newJson = {
-                FigtherId: fighter["FigtherId"],
+                FighterId: fighter["FighterId"],
                 Name: fighter["Name"],
                 Division: fighter["Division Title"],
                 Wins: parseInt(fighter["Division Body"][0]["Wins"] && fighter["Division Body"][0]["Wins"] != "Null" ? fighter["Division Body"][0]["Wins"] : "0.00"),
@@ -79,7 +80,7 @@ export const getRankingsWins = async () => {
 
             const anotherJson = {
                 Rank: 0,
-                FigtherId: item["FigtherId"],
+                FighterId: item["FighterId"],
                 Name: item["Name"],
                 Division: item["Division"],
                 NumberFights: item["NumberFights"],
@@ -89,7 +90,9 @@ export const getRankingsWins = async () => {
             tabJsonToReturn.push(anotherJson);
         })
 
-        return tabJsonToReturn.sort(compareJsonWins);
+        const filteredTabJsonToReturn = duplicateFilter(tabJsonToReturn, "FighterId");
+
+        return filteredTabJsonToReturn.sort(compareJsonWins);
 
 
     } catch (error) {
@@ -105,13 +108,11 @@ export const getRankingsKoWins = async () => {
     const tabJson = [];
 
     try {
-        // const fightersCollection = db.collection("fighters");
-        // const fighters = await fighterSchema.find();
 
         fighters.forEach(fighter => {
 
             const newJson = {
-                FigtherId: fighter["FigtherId"],
+                FighterId: fighter["FighterId"],
                 Name: fighter["Name"],
                 Division: fighter["Division Title"],
                 NumberFights:
@@ -123,18 +124,13 @@ export const getRankingsKoWins = async () => {
             }
 
             tabJson.push(newJson);
-            // console.log("newJson ============================================================================================")
-            // console.log("Name : " + newJson.Name)
-            // console.log("NumberFights : " + newJson.NumberFights)
-            // console.log("Kotko : " + newJson.KoTko)
-            // console.log("")
 
         })
 
         tabJson.forEach(item => {
             const anotherJson = {
                 Rank: 0,
-                FigtherId: item["FigtherId"],
+                FighterId: item["FighterId"],
                 Name: item["Name"],
                 Division: item["Division"],
                 NumberFights: item["NumberFights"],
@@ -143,15 +139,11 @@ export const getRankingsKoWins = async () => {
             }
 
             tabJsonToReturn.push(anotherJson);
-            // console.log("anotherJson ============================================================================================")
-            // console.log("Name : " + anotherJson.Name)
-            // console.log("NumberFights : " + anotherJson.NumberFights)
-            // console.log("WinsKotko : " + anotherJson.WinsKoTko)
-            // console.log("KotkoPercentage : " + anotherJson.KoTkoPercentage)
-            // console.log("")
         })
 
-        return tabJsonToReturn.sort(compareJsonKoWins);
+        const filteredTabJsonToReturn = duplicateFilter(tabJsonToReturn, "FighterId");
+
+        return filteredTabJsonToReturn.sort(compareJsonKoWins);
 
 
     } catch (error) {
@@ -167,14 +159,12 @@ export const getRankingsSubmissionWins = async () => {
     const tabJson = [];
 
     try {
-        // const fightersCollection = db.collection("fighters");
-        // const fighters = await fightersCollection.find().toArray();
 
         fighters.forEach(fighter => {
 
             const newJson = {
                 Name: fighter["Name"],
-                FigtherId: fighter["FigtherId"],
+                FighterId: fighter["FighterId"],
                 Division: fighter["Division Title"],
                 NumberFights:
                     parseInt(fighter["Division Body"][0]["Wins"] && fighter["Division Body"][0]["Wins"] != "Null" ? fighter["Division Body"][0]["Wins"] : "0.00")
@@ -190,7 +180,7 @@ export const getRankingsSubmissionWins = async () => {
         tabJson.forEach(item => {
             const anotherJson = {
                 Rank: 0,
-                FigtherId: item["FigtherId"],
+                FighterId: item["FighterId"],
                 Name: item["Name"],
                 Division: item["Division"],
                 NumberFights: item["NumberFights"],
@@ -201,7 +191,9 @@ export const getRankingsSubmissionWins = async () => {
             tabJsonToReturn.push(anotherJson);
         })
 
-        return tabJsonToReturn.sort(compareJsonSubWins);
+        const filteredTabJsonToReturn = duplicateFilter(tabJsonToReturn, "FighterId");
+
+        return filteredTabJsonToReturn.sort(compareJsonSubWins);
 
 
     } catch (error) {
@@ -216,14 +208,12 @@ export const getRankingsStrikingAccuracy = async () => {
     const tabJsonToReturn = [];
 
     try {
-        // const fightersCollection = db.collection("fighters");
-        // const fighters = await fightersCollection.find().toArray();
 
         fighters.forEach(fighter => {
 
             const newJson = {
                 Rank: 0,
-                FigtherId: fighter["FigtherId"],
+                FighterId: fighter["FighterId"],
                 Name: fighter["Name"],
                 Division: fighter["Division Title"],
                 NumberFights: parseInt(fighter["Division Body"][0]["Wins"] && fighter["Division Body"][0]["Wins"] != "Null" ? fighter["Division Body"][0]["Wins"] : "0.00")
@@ -233,16 +223,11 @@ export const getRankingsStrikingAccuracy = async () => {
             }
 
             tabJsonToReturn.push(newJson);
-            // console.log("newJson ============================================================================================")
-            // console.log("Name : " + newJson.Name)
-            // console.log("NumberFights : " + newJson.NumberFights)
-            // console.log("StrikingAcc : " + newJson.StrikingAcc)
-            // console.log("")
         })
 
-        // console.log((tabJsonToReturn).sort(compareJsonStriking));
+        const filteredTabJsonToReturn = duplicateFilter(tabJsonToReturn, "FighterId");
 
-        return tabJsonToReturn.sort(compareJsonStriking);
+        return filteredTabJsonToReturn.sort(compareJsonStriking);
 
 
     } catch (error) {
@@ -261,14 +246,12 @@ export const getRankingsStrikingRatio = async () => {
     const tabJson = [];
 
     try {
-        // const fightersCollection = db.collection("fighters");
-        // const fighters = await fightersCollection.find().toArray();
 
         fighters.forEach(fighter => {
 
             const newJson = {
                 Name: fighter["Name"],
-                FigtherId: fighter["FigtherId"],
+                FighterId: fighter["FighterId"],
                 Division: fighter["Division Title"],
                 NumberFights:
                     parseInt(fighter["Division Body"][0]["Wins"] && fighter["Division Body"][0]["Wins"] != "Null" ? fighter["Division Body"][0]["Wins"] : "0.00")
@@ -286,7 +269,7 @@ export const getRankingsStrikingRatio = async () => {
             if (item["StrikesAttempted"] && item["StrikesLanded"]) {
                 const anotherJson = {
                     Rank: 0,
-                    FigtherId: item["FigtherId"],
+                    FighterId: item["FighterId"],
                     Name: item["Name"],
                     Division: item["Division"],
                     NumberFights: item["NumberFights"],
@@ -297,7 +280,9 @@ export const getRankingsStrikingRatio = async () => {
             }
         })
 
-        return tabJsonToReturn.sort(compareJsonStrikingRatio);
+        const filteredTabJsonToReturn = duplicateFilter(tabJsonToReturn, "FighterId");
+
+        return filteredTabJsonToReturn.sort(compareJsonStrikingRatio);
 
 
     } catch (error) {
@@ -312,14 +297,12 @@ export const getRankingsTakedownAccuracy = async () => {
     const tabJsonToReturn = [];
 
     try {
-        // const fightersCollection = db.collection("fighters");
-        // const fighters = await fightersCollection.find().toArray();
 
         fighters.forEach(fighter => {
 
             const newJson = {
                 Rank: 0,
-                FigtherId: fighter["FigtherId"],
+                FighterId: fighter["FighterId"],
                 Name: fighter["Name"],
                 Division: fighter["Division Title"],
                 NumberFights:
@@ -332,7 +315,9 @@ export const getRankingsTakedownAccuracy = async () => {
             tabJsonToReturn.push(newJson);
         })
 
-        return tabJsonToReturn.sort(compareJsonTakedown);
+        const filteredTabJsonToReturn = duplicateFilter(tabJsonToReturn, "FighterId");
+
+        return filteredTabJsonToReturn.sort(compareJsonTakedown);
 
 
     } catch (error) {
@@ -346,14 +331,12 @@ export const getRankingsTakedownDefense = async () => {
     const tabJsonToReturn = [];
 
     try {
-        // const fightersCollection = db.collection("fighters");
-        // const fighters = await fightersCollection.find().toArray();
 
         fighters.forEach(fighter => {
 
             const newJson = {
                 Rank: 0,
-                FigtherId: fighter["FigtherId"],
+                FighterId: fighter["FighterId"],
                 Name: fighter["Name"],
                 Division: fighter["Division Title"],
                 NumberFights: parseInt(fighter["Division Body"][0]["Wins"] && fighter["Division Body"][0]["Wins"] != "Null" ? fighter["Division Body"][0]["Wins"] : "0.00")
@@ -365,7 +348,9 @@ export const getRankingsTakedownDefense = async () => {
             tabJsonToReturn.push(newJson);
         })
 
-        return tabJsonToReturn.sort(compareJsonTakedownDefense);
+        const filteredTabJsonToReturn = duplicateFilter(tabJsonToReturn, "FighterId");
+
+        return filteredTabJsonToReturn.sort(compareJsonTakedownDefense);
 
 
     } catch (error) {
@@ -382,13 +367,11 @@ export const getRankingsTakedownsRatio = async () => {
     const tabJson = [];
 
     try {
-        // const fightersCollection = db.collection("fighters");
-        // const fighters = await fightersCollection.find().toArray();
 
         fighters.forEach(fighter => {
 
             const newJson = {
-                FigtherId: fighter["FigtherId"],
+                FighterId: fighter["FighterId"],
                 Name: fighter["Name"],
                 Division: fighter["Division Title"],
                 NumberFights: parseInt(fighter["Division Body"][0]["Wins"] && fighter["Division Body"][0]["Wins"] != "Null" ? fighter["Division Body"][0]["Wins"] : "0.00")
@@ -406,7 +389,7 @@ export const getRankingsTakedownsRatio = async () => {
             if (item["TkdownsAttempted"] && item["TkdownsLanded"]) {
                 const anotherJson = {
                     Rank: 0,
-                    FigtherId: item["FigtherId"],
+                    FighterId: item["FighterId"],
                     Name: item["Name"],
                     Division: item["Division"],
                     NumberFights: item["NumberFights"],
@@ -417,7 +400,9 @@ export const getRankingsTakedownsRatio = async () => {
             }
         })
 
-        return tabJsonToReturn.sort(compareJsonTkdownsRatio);
+        const filteredTabJsonToReturn = duplicateFilter(tabJsonToReturn, "FighterId");
+
+        return filteredTabJsonToReturn.sort(compareJsonTkdownsRatio);
 
 
     } catch (error) {
@@ -426,30 +411,30 @@ export const getRankingsTakedownsRatio = async () => {
     }
 }
 
-export const getRankingsIpsg = async () => {
+export const getRankingsLevel = async () => {
     const tabJsonToReturn = [];
 
     try {
-        // const fightersCollection = db.collection("fighters");
-        // const fighters = await fightersCollection.find().toArray();
 
         fighters.forEach(fighter => {
 
             const newJson = {
                 Rank: 0,
-                FigtherId: fighter["FigtherId"],
+                FighterId: fighter["FighterId"],
                 Name: fighter["Name"],
                 Division: fighter["Division Title"],
                 NumberFights: parseInt(fighter["Division Body"][0]["Wins"] && fighter["Division Body"][0]["Wins"] != "Null" ? fighter["Division Body"][0]["Wins"] : "0.00")
                     + parseInt(fighter["Division Body"][0]["Losses"] && fighter["Division Body"][0]["Losses"] != "Null" ? fighter["Division Body"][0]["Losses"] : "0.00")
                     + parseInt(fighter["Division Body"][0]["Draws"] && fighter["Division Body"][0]["Draws"] != "Null" ? fighter["Division Body"][0]["Draws"] : "0.00"),
-                Ipsg: 0
+                Level: 0
             }
 
             tabJsonToReturn.push(newJson);
         })
 
-        return tabJsonToReturn;
+        const filteredTabJsonToReturn = duplicateFilter(tabJsonToReturn, "FighterId");
+
+        return filteredTabJsonToReturn;
 
 
     } catch (error) {

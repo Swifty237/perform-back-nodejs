@@ -9,7 +9,7 @@ import {
     getRankingsTakedownAccuracy,
     getRankingsTakedownDefense,
     getRankingsTakedownsRatio,
-    getRankingsIpsg
+    getRankingsLevel
 } from './controllers/rankings-controller.js';
 
 
@@ -89,7 +89,7 @@ apiRouter.route('/performmma/rankings/takedownsratio').
 apiRouter.route('/performmma/rankings/ipsg').
     get(async (req, res) => {
 
-        const tabRankings = await getRankingsIpsg();
+        const tabRankings = await getRankingsLevel();
         res.json(tabRankings);
     });
 

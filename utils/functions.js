@@ -48,3 +48,26 @@ export const compareJsonTakedownDefense = (a, b) => {
 export const compareJsonTkdownsRatio = (a, b) => {
     return parseInt(b.TkdownsRatio) - parseInt(a.TkdownsRatio);
 }
+
+export const duplicateFilter = (tab, id, name) => {
+    const uniqueIds = [];
+    const uniqueNames = [];
+    const uniqueObjects = [];
+
+    tab.forEach(obj => {
+
+        const idValue = obj[id];
+        const nameValue = obj[name];
+
+        if (!uniqueIds.includes(idValue)) {
+
+            uniqueIds.push(idValue);
+
+            if (!uniqueNames.includes(nameValue)) {
+                uniqueObjects.push(obj);
+            }
+        }
+    });
+
+    return uniqueObjects;
+} 
